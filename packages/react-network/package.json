@@ -26,6 +26,7 @@
   "dependencies": {
     "@shopify/network": "^1.4.7",
     "@shopify/react-effect": "^3.2.12",
+    "@shopify/react-html": "^9.3.11",
     "@types/accept-language-parser": "1.5.0",
     "@types/cookie": "^0.3.3",
     "@types/koa": "^2.0.0",

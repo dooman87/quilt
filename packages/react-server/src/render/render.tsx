@@ -93,7 +93,12 @@ export function createRender(render: RenderFunction, options: Options = {}) {
           <HydrationContext.Provider value={hydrationManager}>
             <NetworkContext.Provider value={networkManager}>
               {children}
-              <Serialize data={() => ctx.state.quiltData} />
+              <Serialize
+                data={() => ({
+                  ...ctx.state.quiltData,
+                  accessedHeaders: networkManager.accessedHeaders,
+                })}
+              />
             </NetworkContext.Provider>
           </HydrationContext.Provider>
         </AsyncAssetContext.Provider>

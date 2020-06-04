@@ -2,6 +2,7 @@ import {useContext} from 'react';
 import {parse, Language} from 'accept-language-parser';
 import {CspDirective, StatusCode, Header} from '@shopify/network';
 import {useServerEffect} from '@shopify/react-effect';
+import {getSerialized} from '@shopify/react-html';
 
 import {NetworkContext} from './context';
 import {NetworkManager} from './manager';
@@ -28,7 +29,22 @@ export function useCspDirective(
 
 export function useRequestHeader(header: string) {
   const network = useContext(NetworkContext);
-  return network ? network.getHeader(header) : undefined;
+
+  if (network) {
+    // Server: get it from context
+    // It should also store/serialize it for later client-side renders
+    return network.getHeader(header);
+  } else {
+    // Client: get it from serialized data
+    // If not present (i.e. component was not initially rendered on server) return undefined
+    try {
+      return (getSerialized('quilt-data') as {
+        accessedHeaders: {};
+      }).accessedHeaders[header.toLowerCase()];
+    } catch {
+      return undefined;
+    }
+  }
 }
 
 export function useHeader(header: string, value: string) {

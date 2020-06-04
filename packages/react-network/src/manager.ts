@@ -24,6 +24,7 @@ export class NetworkManager {
   };
 
   cookies: ServerCookieManager;
+  accessedHeaders: Record<string, string> = {};
 
   private statusCodes: StatusCode[] = [];
   private redirectUrl?: string;
@@ -45,7 +46,14 @@ export class NetworkManager {
   }
 
   getHeader(header: string) {
-    return this.requestHeaders[header.toLowerCase()];
+    const headerKey = header.toLowerCase();
+    const headerValue = this.requestHeaders[headerKey];
+
+    if (headerValue !== undefined) {
+      this.accessedHeaders[headerKey] = headerValue;
+    }
+
+    return headerValue;
   }
 
   setHeader(header: string, value: string) {
