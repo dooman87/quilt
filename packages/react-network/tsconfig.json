@@ -15,6 +15,7 @@
     {"path": "../jest-koa-mocks"},
     {"path": "../network"},
     {"path": "../react-effect"},
+    {"path": "../react-hooks"},
     {"path": "../react-html"}
   ]
 }
