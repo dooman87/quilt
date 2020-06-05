@@ -14,4 +14,4 @@ export {
   useAcceptLanguage,
   useNetworkManager,
 } from './hooks';
-export {HeaderUniversalProvider} from './HeaderUniversalProvider';
+export {NetworkUniversalProvider} from './NetworkUniversalProvider';

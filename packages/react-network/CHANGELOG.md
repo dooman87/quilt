@@ -9,7 +9,7 @@ and adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ### Added
 
-- Provide `HeaderUniversalProvider` component for universal access to request headers. Previously `useRequestHeader` only had value on initial server-side renders
+- Provide `NetworkUniversalProvider` component for universal access to network details. Currently only supports request headers. Previously `useRequestHeader` only had value on initial server-side renders
 
 ## [3.3.0]
 

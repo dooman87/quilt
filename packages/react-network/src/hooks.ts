@@ -3,8 +3,14 @@ import {parse, Language} from 'accept-language-parser';
 import {CspDirective, StatusCode, Header} from '@shopify/network';
 import {useServerEffect} from '@shopify/react-effect';
 
-import {NetworkContext, HeaderContext} from './context';
+import {NetworkContext, UniversalContext} from './context';
 import {NetworkManager} from './manager';
+
+const NO_NETWORK_DETAILS_ERROR = [
+  'Could not find react-network details.',
+  'Either `<NetworkContext.Provider />` or `<NetworkUniversalProvider />` is likely',
+  'missing in your application component tree.',
+].join(' ');
 
 export function useNetworkEffect(perform: (network: NetworkManager) => void) {
   const network = useContext(NetworkContext);
@@ -27,13 +33,18 @@ export function useCspDirective(
 }
 
 export function useRequestHeader(header: string) {
-  const network = useContext(NetworkContext);
-  const headers = useContext(HeaderContext);
+  const manager = useNetworkManager();
+  const details = useContext(UniversalContext);
 
-  if (network) {
-    return network.getHeader(header);
+  if (manager) {
+    // Server-side: get it directly from network context
+    return manager.getHeader(header);
+  } else if (details) {
+    // Client-side: get it from serialized universal context
+    return details.headers[header.toLowerCase()];
   } else {
-    return headers[header.toLowerCase()];
+    // No server-side network context and no universal context provider
+    throw new Error(NO_NETWORK_DETAILS_ERROR);
   }
 }
 
