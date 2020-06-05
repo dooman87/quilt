@@ -86,18 +86,14 @@ export function createRender(render: RenderFunction, options: Options = {}) {
     const hydrationManager = new HydrationManager();
 
     function Providers({children}: {children: React.ReactElement<any>}) {
-      const [, QuiltDataSerialize] = useSerialized<Data>('quilt-data');
-      const [, HeadersSerialize] = useSerialized<Record<string, string>>(
-        'request-headers',
-      );
+      const [, Serialize] = useSerialized<Data>('quilt-data');
 
       return (
         <AsyncAssetContext.Provider value={asyncAssetManager}>
           <HydrationContext.Provider value={hydrationManager}>
             <NetworkContext.Provider value={networkManager}>
               {children}
-              <QuiltDataSerialize data={() => ctx.state.quiltData} />
-              <HeadersSerialize data={() => networkManager.accessedHeaders} />
+              <Serialize data={() => ctx.state.quiltData} />
             </NetworkContext.Provider>
           </HydrationContext.Provider>
         </AsyncAssetContext.Provider>

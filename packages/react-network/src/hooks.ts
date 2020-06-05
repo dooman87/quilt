@@ -2,10 +2,8 @@ import {useContext} from 'react';
 import {parse, Language} from 'accept-language-parser';
 import {CspDirective, StatusCode, Header} from '@shopify/network';
 import {useServerEffect} from '@shopify/react-effect';
-import {getSerialized} from '@shopify/react-html';
-import {useLazyRef} from '@shopify/react-hooks';
 
-import {NetworkContext} from './context';
+import {NetworkContext, HeaderContext} from './context';
 import {NetworkManager} from './manager';
 
 export function useNetworkEffect(perform: (network: NetworkManager) => void) {
@@ -30,24 +28,13 @@ export function useCspDirective(
 
 export function useRequestHeader(header: string) {
   const network = useContext(NetworkContext);
+  const headers = useContext(HeaderContext);
 
-  const ref = useLazyRef(() => {
-    if (network) {
-      // Server: get it from context
-      // It should also store/serialize it for later client-side renders
-      return network.getHeader(header);
-    } else {
-      // Client: get it from serialized data
-      // If not present (i.e. component was not initially rendered on server) return undefined
-      try {
-        return (getSerialized('request-headers') as {})[header.toLowerCase()];
-      } catch {
-        return undefined;
-      }
-    }
-  });
-
-  return ref.current;
+  if (network) {
+    return network.getHeader(header);
+  } else {
+    return headers[header.toLowerCase()];
+  }
 }
 
 export function useHeader(header: string, value: string) {

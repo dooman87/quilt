@@ -16,6 +16,6 @@
     {"path": "../network"},
     {"path": "../react-effect"},
     {"path": "../react-hooks"},
-    {"path": "../react-html"}
+    {"path": "../react-universal-provider"}
   ]
 }
