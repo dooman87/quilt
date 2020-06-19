@@ -1,12 +1,12 @@
 {
   "name": "@dooman87/koa-shopify-auth",
-  "version": "1.0.0",
+  "version": "v1.0.0",
   "license": "MIT",
   "description": "",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
   "scripts": {
-    "build": "tsc --p tsconfig.json"
+    "build": "tsc --p tsco˚nfig.json"
   },
   "publishConfig": {
     "access": "public",
